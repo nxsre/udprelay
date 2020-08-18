@@ -18,7 +18,7 @@ A packet starting with the string _udprelay!_ will never be relayed to other pee
 
 ## channel
 
-The *channel* command switches the peer to a different channel identified by the first string of non-spacing-characters in the command's _body_. If the _body_ is empty, the peer is switched to the default unnamed channel. Peers will only receive and send messages sent by and to peers who have connected to the same channel.
+The *channel* command switches the peer to a different channel identified by the first string of non-spacing-characters in the command's _body_. If the _body_ is empty, the peer is switched to the default unnamed channel. Peers will only receive and send messages sent by and to peers who have connected to the same channel. After switching the peer's channel, the server will send the command's packet back to its originator unchanged.
 
 ## echo
 

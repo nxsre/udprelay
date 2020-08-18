@@ -11,11 +11,7 @@ import (
 )
 
 var flagTimeout = flag.String("timeout", "10m", "duration to keep connections alive after their last packet")
-
-type Peer struct {
-	Addr    *net.UDPAddr
-	Timeout time.Time
-}
+var flagProtocol = flag.Bool("protocol", false, "enables the udprelay command protocol")
 
 func main() {
 	log.SetFlags(0)
@@ -41,13 +37,17 @@ func main() {
 		os.Exit(2)
 	}
 
-	peers := make(map[string]*Peer, 0)
-
 	conn, err := net.ListenUDP("udp", &net.UDPAddr{Port: listenPort})
 	if err != nil {
 		panic(err)
 	}
 	log.Printf("listen: %d\n", listenPort)
+
+	relay := &Relay{
+		Log:             log.New(os.Stderr, "", 0),
+		Timeout:         timeoutDuration,
+		CommandProtocol: *flagProtocol,
+	}
 
 	buf := make([]byte, 65536)
 	for {
@@ -58,33 +58,6 @@ func main() {
 		}
 		packet := buf[:n]
 
-		peer, exists := peers[addr.String()]
-		if !exists {
-			log.Printf("connect: %s\n", addr.String())
-			peer = &Peer{
-				Addr: addr,
-			}
-			peers[addr.String()] = peer
-		}
-		peer.Timeout = time.Now().Add(timeoutDuration)
-
-		sender := peer
-		for addr, peer := range peers {
-			if peer.Addr == sender.Addr {
-				continue
-			}
-
-			if time.Now().After(peer.Timeout) {
-				log.Printf("timeout: %s\n", addr)
-				delete(peers, addr)
-				continue
-			}
-
-			_, err := conn.WriteToUDP(packet, peer.Addr)
-			if err != nil {
-				log.Printf("error: writing to %s: %s\n", peer.Addr.String(), err)
-				continue
-			}
-		}
+		relay.HandlePacket(conn, addr, packet)
 	}
 }
