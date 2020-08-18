@@ -1,0 +1,21 @@
+image: alpine/3.12
+packages:
+- scdoc
+- go
+- musl-dev
+sources:
+- https://git.sr.ht/~kt/udprelay
+tasks:
+- build: |
+    cd udprelay
+    go get -v .
+    make docs
+    make udprelay-linux-386
+    make udprelay-linux-amd64
+    make udprelay-linux-arm64
+artifacts:
+- udprelay/udprelay-linux-386
+- udprelay/udprelay-linux-amd64
+- udprelay/udprelay-linux-arm64
+- udprelay/udprelay.1
+- udprelay/udprelay.7
