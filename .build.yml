@@ -3,8 +3,11 @@ packages:
 - scdoc
 - go
 - musl-dev
+- curl
 sources:
 - https://git.sr.ht/~kt/udprelay
+secrets:
+- 7275750e-9938-4ba3-9c7a-ab75c8145edd # access token for ref artifacts
 tasks:
 - build: |
     cd udprelay
@@ -13,6 +16,11 @@ tasks:
     make udprelay-linux-386
     make udprelay-linux-amd64
     make udprelay-linux-arm64
+- upload: |
+    ref="$(git -C udprelay describe --exact-match HEAD)" || exit 0
+    for f in udprelay/{udprelay-linux-*,udprelay.{1,7}}; do
+      curl -H @.sr.ht.headers -F "file=@$f" "https://git.sr.ht/api/~kt/repos/udprelay/artifacts/${ref}"
+    done
 artifacts:
 - udprelay/udprelay-linux-386
 - udprelay/udprelay-linux-amd64
