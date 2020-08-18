@@ -8,6 +8,12 @@ udprelay: *.go
 		-o '$@' \
 		.
 
+%: %.scd
+	scdoc < $< > $@
+
+.PHONY: docs
+docs: udprelay.1 udprelay.7
+
 .PHONY: deps
 deps:
 	$(GO) get -v .
