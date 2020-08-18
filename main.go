@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var flagTimeout = flag.String("timeout", "10m", "")
+var flagTimeout = flag.String("timeout", "10m", "duration to keep connections alive after their last packet")
 
 type Peer struct {
 	Addr    *net.UDPAddr
