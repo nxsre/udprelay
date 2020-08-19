@@ -44,3 +44,10 @@ command; it will not interpret any of the remaining data in the packet.
 # SEE ALSO
 
 *udprelay*(1)
+
+# AUTHORS
+
+udprelay is maintained by Katie Wolfe <wolfe@katie.host>. Its source is located
+at https://git.sr.ht/~kt/udprelay. Questions about the project, bugs, and
+patches may be submitted to the mailing list at ~kt/udprelay@lists.sr.ht or
+directly to the author at wolfe@katie.host.
