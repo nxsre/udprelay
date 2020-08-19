@@ -15,8 +15,9 @@ var flagProtocol = flag.Bool("protocol", false, "enables the udprelay command pr
 
 func main() {
 	log.SetFlags(0)
+	log.Printf("udprelay %s\n", Version)
 	flag.Usage = func() {
-		fmt.Fprintf(flag.CommandLine.Output(), "udprelay %s\nusage: %s [OPTION...] port\n\noptions:\n", Version, os.Args[0])
+		fmt.Fprintf(flag.CommandLine.Output(), "usage: %s [OPTION...] port\n\noptions:\n", os.Args[0])
 		flag.PrintDefaults()
 	}
 	flag.Parse()
