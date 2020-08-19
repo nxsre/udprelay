@@ -19,7 +19,9 @@ tasks:
 - upload: |
     ref="$(git -C udprelay describe --exact-match HEAD)" || exit 0
     for f in udprelay/{udprelay-linux-*,udprelay.{1,7}}; do
-      curl -H @.sr.ht.headers -F "file=@$f" "https://git.sr.ht/api/~kt/repos/udprelay/artifacts/${ref}"
+      filename="$(basename "${f}")"
+      filename="udprelay-${ref}-${filename#udprelay-}"
+      curl -H @.sr.ht.headers -F "file=@$f;filename=\"${filename}\"" "https://git.sr.ht/api/~kt/repos/udprelay/artifacts/${ref}"
     done
 artifacts:
 - udprelay/udprelay-linux-386
