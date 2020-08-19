@@ -4,6 +4,26 @@
 
 For documentation on the program and protocol, check **udprelay**(1) and **udprelay**(7) respectively.
 
+# Basic usage
+
+To make udprelay act as a transparent packet relay, just tell it what port to run on:
+
+```
+udprelay 9999
+```
+
+udprelay will now listen for incoming packets on port 9999 and relay them to any peers it has received packets from within the last ten minutes. To adjust this timeout duration, use the `-timeout` flag:
+
+```
+udprelay -timeout 30m 9999
+```
+
+udprelay can also implement a command protocol as defined in **udprelay**(7) which adds additional functionality. Enable this with the `-protocol` flag:
+
+```
+udprelay -protocol 9999
+```
+
 # Building & Installation
 
 A udprelay package for Arch Linux is available in the AUR ([udprelay](https://aur.archlinux.org/packages/udprelay)). If you maintain a udprelay package for your distro, feel free to submit a patch to add a link to this README!
