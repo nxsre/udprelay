@@ -1,4 +1,4 @@
-udprelay(7)
+udprelay(7) "udprelay v1.0.0"
 
 # NAME
 

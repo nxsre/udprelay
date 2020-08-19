@@ -31,7 +31,11 @@ list-binary-targets:
 	@echo $(PLATFORMS)
 
 %: %.scd
+ifdef VERSION
+	sed '1 s/v\([0-9]\+\.\)\{2\}[0-9]\+/$(VERSION)/' $< | scdoc > $@
+else
 	scdoc < $< > $@
+endif
 
 .PHONY: docs
 docs: udprelay.1 udprelay.7
