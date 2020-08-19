@@ -11,7 +11,7 @@ import (
 )
 
 var flagTimeout = flag.String("timeout", "10m", "duration to keep connections alive after their last packet")
-var flagProtocol = flag.Bool("protocol", false, "enables the udprelay command protocol")
+var flagProtocol = flag.Bool("protocol", false, "enables the udprelay command protocol as defined in udprelay(7)")
 
 var flagVersion = flag.Bool("version", false, "print the version to stdout and exit immediately")
 
