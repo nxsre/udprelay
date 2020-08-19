@@ -22,6 +22,9 @@ udprelay also features an optional command protocol that allows for more advance
 *-timeout* _duration_
 	Set the amount of time to leave connections open without receiving any packets from a peer. _duration_ is a sequence of decimal numbers with unit suffixes, such as *10m*, *120s*, and *5m48s*.
 
+*-version*
+	Prints the version of udprelay to stdout and exits with a code of 0.
+
 # SEE ALSO
 
 *udprelay*(7)

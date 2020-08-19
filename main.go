@@ -13,19 +13,19 @@ import (
 var flagTimeout = flag.String("timeout", "10m", "duration to keep connections alive after their last packet")
 var flagProtocol = flag.Bool("protocol", false, "enables the udprelay command protocol")
 
+var flagVersion = flag.Bool("version", false, "print the version to stdout and exit immediately")
+
 func main() {
 	log.SetFlags(0)
-	log.Printf("udprelay %s\n", Version)
 	flag.Usage = func() {
-		fmt.Fprintf(flag.CommandLine.Output(), "usage: %s [OPTION...] port\n\noptions:\n", os.Args[0])
+		fmt.Fprintf(flag.CommandLine.Output(), "udprelay %s\nusage: %s [OPTION...] port\n\noptions:\n", Version, os.Args[0])
 		flag.PrintDefaults()
 	}
 	flag.Parse()
 
-	timeoutDuration, err := time.ParseDuration(*flagTimeout)
-	if err != nil {
-		log.Println("error: parsing -timeout: %s\n", err)
-		os.Exit(2)
+	if *flagVersion {
+		fmt.Printf("udprelay %s\n", Version)
+		os.Exit(0)
 	}
 
 	if flag.NArg() != 1 {
@@ -35,6 +35,14 @@ func main() {
 	listenPort, err := strconv.Atoi(flag.Arg(0))
 	if err != nil {
 		flag.Usage()
+		os.Exit(2)
+	}
+
+	log.Printf("udprelay %s\n\n", Version)
+
+	timeoutDuration, err := time.ParseDuration(*flagTimeout)
+	if err != nil {
+		log.Println("error: parsing -timeout: %s\n", err)
 		os.Exit(2)
 	}
 
