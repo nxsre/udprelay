@@ -2,6 +2,8 @@ GO = go
 
 VERSION = $(shell git describe --dirty --broken --match 'v*')
 
+LDFLAGS = '$(if $(VERSION),-X main.Version=$(VERSION))'
+
 # list of binary names for every os/arch combination returned from `go tool dist list`
 PLATFORMS := $(foreach plat,$(shell go tool dist list),udprelay-$(subst /,-,$(plat))$(if $(findstring windows,$(plat)),.exe))
 
@@ -11,7 +13,7 @@ arch = $(word 2, $(platform))
 
 udprelay: *.go
 	$(GO) build \
-		-ldflags '-X main.Version=$(VERSION)' \
+		-ldflags $(LDFLAGS) \
 		-o '$@' \
 		.
 
@@ -20,7 +22,7 @@ all-platforms: $(PLATFORMS)
 
 $(PLATFORMS): *.go
 	GOOS=$(os) GOARCH=$(arch) $(GO) build \
-		-ldflags '-X main.Version=$(VERSION)' \
+		-ldflags $(LDFLAGS) \
 		-o '$@' \
 		.
 
