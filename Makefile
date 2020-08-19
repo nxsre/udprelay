@@ -39,3 +39,7 @@ docs: udprelay.1 udprelay.7
 .PHONY: deps
 deps:
 	$(GO) get -v .
+
+.PHONY: clean
+clean:
+	rm -f udprelay.1 udprelay.7 udprelay $(PLATFORMS)
