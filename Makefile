@@ -30,6 +30,9 @@ $(PLATFORMS): *.go
 list-binary-targets:
 	@echo $(PLATFORMS)
 
+%.txt: %
+	groff -Tutf8 -man < $< | col -bx > $@
+
 %: %.scd
 ifdef VERSION
 	sed '1 s/v\([0-9]\+\.\)\{2\}[0-9]\+/$(VERSION)/' $< | scdoc > $@
@@ -40,10 +43,13 @@ endif
 .PHONY: docs
 docs: udprelay.1 udprelay.7
 
+.PHONY: docs-text
+docs-text: udprelay.1.txt udprelay.7.txt
+
 .PHONY: deps
 deps:
 	@echo 'no dependencies :)'
 
 .PHONY: clean
 clean:
-	rm -f udprelay.1 udprelay.7 udprelay $(PLATFORMS)
+	rm -f udprelay.1 udprelay.1.txt udprelay.7 udprelay.7.txt udprelay $(PLATFORMS)

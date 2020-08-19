@@ -4,6 +4,8 @@ packages:
 - go
 - musl-dev
 - curl
+- groff
+- util-linux # col command for stripping plaintext output from groff
 sources:
 - https://git.sr.ht/~kt/udprelay
 secrets:
@@ -12,13 +14,13 @@ tasks:
 - build: |
     cd udprelay
     go get -v .
-    make docs
+    make docs docs-text
     make udprelay-linux-386
     make udprelay-linux-amd64
     make udprelay-linux-arm64
 - upload: |
     ref="$(git -C udprelay describe --exact-match HEAD)" || exit 0
-    for f in udprelay/{udprelay-linux-*,udprelay.{1,7}}; do
+    for f in udprelay/{udprelay-linux-*,udprelay.{1,7}{,.txt}}; do
       filename="$(basename "${f}")"
       filename="udprelay-${ref}-${filename#udprelay-}"
       curl -H @.sr.ht.headers -F "file=@$f;filename=\"${filename}\"" "https://git.sr.ht/api/~kt/repos/udprelay/artifacts/${ref}"
@@ -28,4 +30,7 @@ artifacts:
 - udprelay/udprelay-linux-amd64
 - udprelay/udprelay-linux-arm64
 - udprelay/udprelay.1
+- udprelay/udprelay.1.txt
 - udprelay/udprelay.7
+- udprelay/udprelay.7.txt
+
