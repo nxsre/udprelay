@@ -42,7 +42,7 @@ docs: udprelay.1 udprelay.7
 
 .PHONY: deps
 deps:
-	$(GO) get -v .
+	@echo 'no dependencies :)'
 
 .PHONY: clean
 clean:
