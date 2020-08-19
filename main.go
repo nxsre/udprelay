@@ -20,6 +20,7 @@ func main() {
 	flag.Usage = func() {
 		fmt.Fprintf(flag.CommandLine.Output(), "udprelay %s\nusage: %s [OPTION...] port\n\noptions:\n", Version, os.Args[0])
 		flag.PrintDefaults()
+		fmt.Fprintln(flag.CommandLine.Output(), "\nsee `man udprelay.1` for more information")
 	}
 	flag.Parse()
 
