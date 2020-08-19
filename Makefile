@@ -1,6 +1,6 @@
 GO = go
 
-VERSION = $(shell git describe --dirty --broken --match 'v*')
+VERSION := $(shell git describe --dirty --broken --match 'v*' 2>/dev/null)
 
 LDFLAGS = '$(if $(VERSION),-X main.Version=$(VERSION))'
 
